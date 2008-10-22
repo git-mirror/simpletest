@@ -1,6 +1,6 @@
 <?php
-require_once(dirname(__FILE__) . '/../coverage.php');
-require_once(dirname(__FILE__) . '/../coverage_reporter.php');
+require_once(dirname(__FILE__) . '/coverage.php');
+require_once(dirname(__FILE__) . '/coverage_reporter.php');
 
 $log = 'coverage.sqlite';
 
