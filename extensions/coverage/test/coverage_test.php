@@ -1,7 +1,7 @@
 <?php
+require_once(dirname(__FILE__) . '/../../../autorun.php');
+require_once(dirname(__FILE__) . '/../../../mock_objects.php');
 require_once dirname(__FILE__) .'/../coverage.php';
-require_once dirname(__FILE__) .'/../mock_objects.php';
-require_once dirname(__FILE__) .'/../autorun.php';
 
 class CodeCoverageTest extends UnitTestCase {
   
