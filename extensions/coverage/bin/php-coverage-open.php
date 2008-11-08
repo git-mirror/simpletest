@@ -1,4 +1,3 @@
-#!/usr/bin/php 
 <?php
 # 
 # Initialize code coverage data collection, next step is to run your tests
@@ -18,3 +17,4 @@ $cc->excludes = CoverageUtils::issetOr($args['exclude[]']);
 $cc->maxDirectoryDepth = (int)CoverageUtils::issetOr($args['maxdepth'], '1');
 $cc->resetLog();
 $cc->writeSettings();
+?>

@@ -7,8 +7,8 @@ class CoverageUnitTests extends TestSuite {
         $this->TestSuite('Coverage Unit tests');
         $path = dirname(__FILE__) . '/test/*_test.php';
         foreach(glob($path) as $test) {
-          $this->addFile($test);       
+            $this->addFile($test);
         }
-     }
+    }
 }
 ?>

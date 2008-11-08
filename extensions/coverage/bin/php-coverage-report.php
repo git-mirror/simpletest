@@ -1,4 +1,3 @@
-#!/usr/bin/php 
 <?php
 # 
 # Generate a code coverage report
@@ -19,3 +18,4 @@ $report->title = CoverageUtils::issetOr($args['title'], "Simpletest Coverage");
 $report->coverage = $handler->read();
 $report->untouched = $handler->readUntouchedFiles();
 $report->generate();
+?>
