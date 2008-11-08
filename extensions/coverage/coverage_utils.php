@@ -25,21 +25,6 @@ class CoverageUtils {
   }
   
   /**
-   * Selects the most capable coverage report writer available base in available
-   * dependencies
-   *
-   * @return CoverageWriter instance
-   */
-  static public function optimalReportWriter() {
-  	if (self::isPackageClassAvailable('Smarty.class.php', 'Smarty')) {
-  	  include_once(dirname(__FILE__) . '/templated_coverage_writer.php');
-      return new TemplatedCoverageWriter();
-    }
-    include_once(dirname(__FILE__) . '/simple_coverage_writer.php');
-    return new SimpleCoverageWriter();  	
-  }
-
-  /**
    * Parses simple parameters from CLI. 
    * 
    * Puts trailing parameters into string array in 'extraArguments' 

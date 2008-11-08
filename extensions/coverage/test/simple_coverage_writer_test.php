@@ -34,6 +34,7 @@ class SimpleCoverageWriterTest extends UnitTestCase {
     $file = dirname(__FILE__) .'/sample-code.php';
     $calc = new CoverageCalculator();
     $variables = $calc->coverageByFileVariables($file, $cov); 
+    $variables['title'] = 'coverage';
     $writer->writeByFile($out, $variables);
     $dom = self::dom($out);    
 
@@ -52,6 +53,9 @@ class SimpleCoverageWriterTest extends UnitTestCase {
   static function dom($stream) {
     rewind($stream);
     $actual = stream_get_contents($stream);
+    $h = fopen('/tmp/delme.html', 'w');
+    fwrite($h, $actual);
+    fclose($h);
     $html = DOMDocument::loadHTML($actual);
     return simplexml_import_dom($html);    
   }

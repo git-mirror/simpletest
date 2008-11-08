@@ -14,17 +14,11 @@ class CoverageUtilsTest extends UnitTestCase {
   }
   
   function testIsPackageClassAvailable() {
-  	# test fails if sqlite is unavailable, which isn't that
-  	# great of a test.
   	$coverageSource = dirname(__FILE__) .'/../coverage_calculator.php';
   	$this->assertTrue(CoverageUtils::isPackageClassAvailable($coverageSource, 'CoverageCalculator'));
   	$this->assertFalse(CoverageUtils::isPackageClassAvailable($coverageSource, 'BogusCoverage'));
   	$this->assertFalse(CoverageUtils::isPackageClassAvailable('bogus-file', 'BogusCoverage'));
   	$this->assertTrue(CoverageUtils::isPackageClassAvailable('bogus-file', 'CoverageUtils'));
-  }
-  
-  function testOptimalWriter() {
-	$this->assertNotNull(CoverageUtils::optimalReportWriter());  	
   }
     
   function testParseArgumentsMultiValue() {   

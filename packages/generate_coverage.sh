@@ -2,7 +2,6 @@
 cd ..
 ./extensions/coverage/bin/php-coverage-open.php \
 	--exclude='.*/test/.*' \
-	--exclude='.*Smarty.*' \
     --exclude='.*DB.common.php$' \
     --exclude='.*sqlite.php$' \
     --exclude='.*unit_tests.php$'\
