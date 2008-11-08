@@ -1,6 +1,6 @@
 #!/bin/bash
 cd ..
-./extensions/coverage/bin/php-coverage-open.php \
+php ./extensions/coverage/bin/php-coverage-open.php \
 	--exclude='.*/test/.*' \
     --exclude='.*DB.common.php$' \
     --exclude='.*sqlite.php$' \
@@ -9,6 +9,7 @@ cd ..
 
 # run all tests
 php -d auto_prepend_file=./extensions/coverage/autocoverage.php -f test/unit_tests.php    
+php -d auto_prepend_file=./extensions/coverage/autocoverage.php -f extensions/coverage/test.php    
 
-./extensions/coverage/bin/php-coverage-close.php
-./extensions/coverage/bin/php-coverage-report.php
+php ./extensions/coverage/bin/php-coverage-close.php
+php ./extensions/coverage/bin/php-coverage-report.php

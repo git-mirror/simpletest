@@ -118,7 +118,7 @@ class CodeCoverage  {
         }
     }
 
-    function writeSettings() {
+    function writeSettings() {       
         file_put_contents($this->settingsFile, $this->getSettings());
     }
 

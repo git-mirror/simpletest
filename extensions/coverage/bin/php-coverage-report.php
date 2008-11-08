@@ -1,7 +1,8 @@
 <?php
 # 
 # Generate a code coverage report
-# optional arguments
+#
+# optional arguments:
 #  --reportDir=some/directory    the default is ./coverage-report
 #  --title='My Coverage Report'  title the main page of your report
 #

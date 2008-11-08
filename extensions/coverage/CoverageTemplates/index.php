@@ -36,11 +36,11 @@ table {
 	<tbody>
 		<tr>
 			<td>Total Coverage (<a href="#total-coverage">?</a>) :</td>
-			<td class="percentage"><span class="totalPercentCoverage"><?php echo $totalPercentCoverage ?>%</span></td>
+			<td class="percentage"><span class="totalPercentCoverage"><?php echo number_format($totalPercentCoverage, 0) ?>%</span></td>
 		</tr>
 		<tr>
 			<td>Total Files Covered (<a href="#total-files-covered">?</a>) :</td>
-			<td class="percentage"><span class="filesTouchedPercentage"><?php  echo $filesTouchedPercentage ?>%</span></td>
+			<td class="percentage"><span class="filesTouchedPercentage"><?php  echo number_format($filesTouchedPercentage, 0) ?>%</span></td>
 		</tr>
 		<tr>
 			<td>Report Generation Date :</td>
@@ -60,7 +60,7 @@ table {
 		<?php foreach ($coverageByFile as $file => $coverage) { ?>
 		<tr>
 			<td><a class="byFileReportLink" href="<?php echo $coverage['byFileReport']  ?>"><?php echo $file ?></a></td>
-			<td class="percentage"><span class="percentCoverage"><?php echo $coverage['percentage'] ?></span></td>
+			<td class="percentage"><span class="percentCoverage"><?php echo number_format($coverage['percentage'], 0) ?>%</span></td>
 		</tr>
 		<?php } ?>
 	</tbody>
