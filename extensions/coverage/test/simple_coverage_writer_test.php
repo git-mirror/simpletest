@@ -5,21 +5,29 @@ require_once dirname(__FILE__) .'/../coverage_calculator.php';
 
 class SimpleCoverageWriterTest extends UnitTestCase {
   
-  function testWriteSummary() {
+  function testGenerateSummaryReport() {
     $writer = new SimpleCoverageWriter();
     $coverage = array('file' => array(0, 1));
     $untouched = array('missed-file');
     $calc = new CoverageCalculator();
     $variables = $calc->variables($coverage, $untouched);
+    $variables['title'] = 'coverage';
     $out = fopen("php://memory", 'w');
     $writer->writeSummary($out, $variables);
-    rewind($out);
-    $actual = stream_get_contents($out);
-    $this->assertPattern("/Total Coverage: 50%/", $actual);
-    $this->assertPattern("/Total Files Covered: 50%/", $actual);
+    $dom = self::dom($out);
+    $totalPercentCoverage = $dom->elements->xpath("//span[@class='totalPercentCoverage']");
+    $this->assertEqual('50%', (string)$totalPercentCoverage[0]);
+        
+    $fileLinks = $dom->elements->xpath("//a[@class='byFileReportLink']");
+    $fileLinkAttr = $fileLinks[0]->attributes();
+    $this->assertEqual('file.html', $fileLinkAttr['href']);
+    $this->assertEqual('file', (string)($fileLinks[0]));
+    
+    $untouchedFile = $dom->elements->xpath("//span[@class='untouchedFile']");
+    $this->assertEqual('missed-file', (string)$untouchedFile[0]);
   }
   
-  function testWriteByFile() {
+  function testGenerateCoverageByFile() {
     $writer = new SimpleCoverageWriter();
     $cov = array(3 => 1, 4 => -2); // 2 comments, 1 code, 1 dead  (1-based indexes)
     $out = fopen("php://memory", 'w');
@@ -27,24 +35,25 @@ class SimpleCoverageWriterTest extends UnitTestCase {
     $calc = new CoverageCalculator();
     $variables = $calc->coverageByFileVariables($file, $cov); 
     $writer->writeByFile($out, $variables);
-    rewind($out);
-    $actual = stream_get_contents($out);
-    $expected = <<<EXPECTED
-  <?php
-  // sample code
-+ \$x = 1 + 2;
-x if (false) echo "dead";
-EXPECTED;
-    $this->assertEqual($expected, $actual);
+    $dom = self::dom($out);    
+
+    $cells = $dom->elements->xpath("//table[@id='code']/tbody/tr/td/span");
+    $this->assertEqual("comment code", self::getAttribute($cells[1], 'class'));  
+    $this->assertEqual("comment code", self::getAttribute($cells[3], 'class'));
+    $this->assertEqual("covered code", self::getAttribute($cells[5], 'class'));
+    $this->assertEqual("dead code", self::getAttribute($cells[7], 'class'));
   }
-  
-  function testDecodeLineStyle() {
-    $writer = new SimpleCoverageWriter();
-    $this->assertEqual('-', $writer->decodeLineStyle('missed'));
-    $this->assertEqual('+', $writer->decodeLineStyle('covered'));
-    $this->assertEqual('x', $writer->decodeLineStyle('dead'));  
-    $this->assertEqual(' ', $writer->decodeLineStyle(''));
-    $this->assertEqual(' ', $writer->decodeLineStyle('anything'));
+
+  static function getAttribute($element, $attribute) {
+    $a = $element->attributes();
+    return $a[$attribute];
+  }
+ 
+  static function dom($stream) {
+    rewind($stream);
+    $actual = stream_get_contents($stream);
+    $html = DOMDocument::loadHTML($actual);
+    return simplexml_import_dom($html);    
   }
 }
 

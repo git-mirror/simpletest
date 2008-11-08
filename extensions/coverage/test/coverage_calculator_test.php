@@ -23,8 +23,9 @@ class CoverageCalculatorTest extends UnitTestCase {
   
   function testPercentageCoverageByFile() {
     $coverage = array(0,0,0,1,1,1);
-    $pct = array(); 
-    $this->calc->percentCoverageByFile($coverage, 'file', array(&$pct));
+    $results = array();
+    $this->calc->percentCoverageByFile($coverage, 'file', $results);
+    $pct = $results[0];
     $this->assertEqual(50, $pct['file']['percentage']);
     $this->assertEqual('file.html', $pct['file']['byFileReport']);
   }  

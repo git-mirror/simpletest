@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) .'/simple_coverage_writer.php';
 require_once dirname(__FILE__) .'/coverage_calculator.php';
 require_once dirname(__FILE__) .'/coverage_utils.php';
+require_once dirname(__FILE__) .'/simple_coverage_writer.php';
 
 /**
  * Take aggregated coverage data and generate reports from it using smarty
