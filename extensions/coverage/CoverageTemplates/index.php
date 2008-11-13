@@ -30,7 +30,7 @@ table {
 }
 </style>
 <body>
-<h1 id="title"><?php $title ?></h1>
+<h1 id="title"><?php echo $title ?></h1>
 <table>
 	<caption>Summary</caption>
 	<tbody>

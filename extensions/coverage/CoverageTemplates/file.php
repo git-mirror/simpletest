@@ -1,6 +1,6 @@
 <html>
 <head>
-<title><?php $title ?></title>
+<title><?php echo $title ?></title>
 </head>
 <style type="text/css">
 body {
