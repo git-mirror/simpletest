@@ -9,7 +9,7 @@ php ./extensions/coverage/bin/php-coverage-open.php \
 
 # run all tests
 php -d auto_prepend_file=./extensions/coverage/autocoverage.php -f test/unit_tests.php    
-php -d auto_prepend_file=./extensions/coverage/autocoverage.php -f extensions/coverage/test.php    
+php -d auto_prepend_file=./extensions/coverage/autocoverage.php -f extensions/coverage/test/test.php    
 
 php ./extensions/coverage/bin/php-coverage-close.php
 php ./extensions/coverage/bin/php-coverage-report.php

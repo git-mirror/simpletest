@@ -9,7 +9,7 @@
 require_once(dirname(__FILE__) . '/../coverage_utils.php');
 require_once(dirname(__FILE__) . '/../coverage.php');
 require_once(dirname(__FILE__) . '/../coverage_reporter.php');
-$cc = CodeCoverage::getMainInstance();
+$cc = CodeCoverage::getInstance();
 $cc->readSettings();
 $handler = new CoverageDataHandler($cc->log);
 $report = new CoverageReporter();

@@ -16,21 +16,9 @@ class CodeCoverage  {
     var $title = "Code Coverage";
 
     # NOTE: This assumes all code shares the same current working directory.
-    var $settingsFile = 'code-coverage-settings.dat';
+    var $settingsFile = './code-coverage-settings.dat';
 
-    var $isMainThread;
     static $instance;
-
-    function run($runner, $files) {
-        $runner->initialize(1000);
-        $this->resetLog();
-        $this->startCoverage();
-        $this->writeSettings();
-        $results = $runner->run($files);
-        $this->stopCoverage();
-        $this->writeUntouched();
-        return $results;
-    }
 
     function writeUntouched() {
         $touched = array_flip($this->getTouchedFiles());
@@ -74,6 +62,7 @@ class CodeCoverage  {
     }
 
     function resetLog() {
+        error_log('reseting log');
         $new_file = fopen($this->log, "w");
         if (!$new_file) {
             throw new Exception("Could not create ". $this->log);
@@ -91,12 +80,10 @@ class CodeCoverage  {
         if(!extension_loaded("xdebug")) {
             throw new Exception("Could not load xdebug extension");
         };
-        echo "Starting coverage\n";
         xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
     }
 
     function stopCoverage() {
-        echo "Writing coverage\n";
         $cov = xdebug_get_code_coverage();
         $this->filter($cov);
         $data = new CoverageDataHandler($this->log);
@@ -110,11 +97,10 @@ class CodeCoverage  {
     }
 
     function readSettings() {
-        $file = getcwd() .'/'. $this->settingsFile;
-        if (file_exists($file)) {
-            $this->setSettings(file_get_contents($file));
+        if (file_exists($this->settingsFile)) {
+            $this->setSettings(file_get_contents($this->settingsFile));
         } else {
-            error_log("could not find file ". $file);
+            error_log("could not find file ". $this->settingsFile);
         }
     }
 
@@ -181,23 +167,8 @@ class CodeCoverage  {
         return True;
     }
 
-    static function getMainInstance() {
-        self::$instance = CodeCoverage::getInstance();
-        self::$instance->isMainThread = True;
-        return self::$instance;
-    }
-
-    static function getExternalProcessInstance() {
-        $coverage = CodeCoverage::getInstance();
-        $coverage->readSettings();
-        return $coverage;
-    }
-
-    static function isCoverageOnForExternalProcess() {
+    static function isCoverageOn() {
         $coverage = self::getInstance();
-        if ($coverage->isMainThread) {
-            return False;
-        }
         $coverage->readSettings();
         if (empty($coverage->log) || !file_exists($coverage->log)) {
             trigger_error('No coverage log');
@@ -209,6 +180,7 @@ class CodeCoverage  {
     static function getInstance() {
         if (self::$instance == NULL) {
             self::$instance = new CodeCoverage();
+            self::$instance->readSettings();
         }
         return self::$instance;
     }

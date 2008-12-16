@@ -31,7 +31,7 @@ class SimpleCoverageWriterTest extends UnitTestCase {
         $writer = new SimpleCoverageWriter();
         $cov = array(3 => 1, 4 => -2); // 2 comments, 1 code, 1 dead  (1-based indexes)
         $out = fopen("php://memory", 'w');
-        $file = dirname(__FILE__) .'/sample-code.php';
+        $file = dirname(__FILE__) .'/sample/code.php';
         $calc = new CoverageCalculator();
         $variables = $calc->coverageByFileVariables($file, $cov);
         $variables['title'] = 'coverage';
@@ -53,9 +53,6 @@ class SimpleCoverageWriterTest extends UnitTestCase {
     static function dom($stream) {
         rewind($stream);
         $actual = stream_get_contents($stream);
-        $h = fopen('/tmp/delme.html', 'w');
-        fwrite($h, $actual);
-        fclose($h);
         $html = DOMDocument::loadHTML($actual);
         return simplexml_import_dom($html);
     }

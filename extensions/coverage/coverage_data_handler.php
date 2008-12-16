@@ -13,6 +13,7 @@ class CoverageDataHandler {
     var $db;
 
     function __construct($filename) {
+        $this->filename = $filename;
         $this->db = new SQLiteDatabase($filename);
         if (empty($this->db)) {
             throw new Exception("Could not create sqlite db ". $filename);
@@ -39,6 +40,7 @@ class CoverageDataHandler {
             $coverageStr = serialize($lines);
             $relativeFilename = self::ltrim(getcwd() . '/', $file);
             $sql = "insert into coverage (name, coverage) values ('$relativeFilename', '$coverageStr')";
+            # if this fails, check you have write permission
             $this->db->queryExec($sql);
         }
     }

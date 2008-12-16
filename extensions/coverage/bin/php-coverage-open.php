@@ -15,7 +15,7 @@
 require_once(dirname(__FILE__) . '/../coverage_utils.php');
 CoverageUtils::requireSqlite();
 require_once(dirname(__FILE__) . '/../coverage.php');
-$cc = CodeCoverage::getMainInstance();
+$cc = new CodeCoverage();
 $cc->log = 'coverage.sqlite';
 $args = CoverageUtils::parseArguments($_SERVER['argv'], TRUE);
 $cc->includes = CoverageUtils::issetOr($args['include[]'], array('.*\.php$'));

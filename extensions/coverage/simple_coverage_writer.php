@@ -8,7 +8,7 @@ class SimpleCoverageWriter implements CoverageWriter {
         extract($variables);
         $now = date("F j, Y, g:i a");
         ob_start();
-        include dirname(__FILE__) . '/CoverageTemplates/index.php';
+        include dirname(__FILE__) . '/templates/index.php';
         $contents = ob_get_contents();
         fwrite ($out, $contents);
         ob_end_clean();
@@ -17,7 +17,7 @@ class SimpleCoverageWriter implements CoverageWriter {
     function writeByFile($out, $variables) {
         extract($variables);
         ob_start();
-        include dirname(__FILE__) . '/CoverageTemplates/file.php';
+        include dirname(__FILE__) . '/templates/file.php';
         $contents = ob_get_contents();
         fwrite ($out, $contents);
         ob_end_clean();
