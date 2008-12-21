@@ -31,7 +31,7 @@ class TestOfUnitTester extends UnitTestCase {
     function testReferenceAssertionOnObjects() {
         $a = &new ReferenceForTesting();
         $b = &$a;
-        $this->assertReference($a, $b);
+        $this->assertSame($a, $b);
     }
     
     function testReferenceAssertionOnScalars() {
@@ -50,6 +50,12 @@ class TestOfUnitTester extends UnitTestCase {
         $a = 25;
         $b = 25;
         $this->assertClone($a, $b);
+    }
+    
+    function testCopyOnScalars() {
+        $a = 25;
+        $b = 25;
+        $this->assertCopy($a, $b);
     }
 }
 ?>

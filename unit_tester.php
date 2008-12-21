@@ -248,6 +248,30 @@ class UnitTestCase extends SimpleTestCase {
 
     /**
      *    Will trigger a pass if both parameters refer
+     *    to the same object. Fail otherwise. This has
+     *    the same semantics at the PHPUnit assertSame.
+     *    That is, if values are passed in it has roughly
+     *    the same affect as assertIdentical.
+     *    TODO: Replace with expectation.
+     *    @param mixed $first           Object reference to check.
+     *    @param mixed $second          Hopefully the same object.
+     *    @param string $message        Message to display.
+     *    @return boolean               True on pass
+     *    @access public
+     */
+    function assertSame($first, $second, $message = '%s') {
+        $dumper = &new SimpleDumper();
+        $message = sprintf(
+                $message,
+                '[' . $dumper->describeValue($first) .
+                        '] and [' . $dumper->describeValue($second) .
+                        '] should reference the same object');
+        return $this->assertTrue($first === $second, $message);
+    }
+
+
+    /**
+     *    Will trigger a pass if both parameters refer
      *    to different objects. Fail otherwise. The objects
      *    have to be identical though.
      *    @param mixed $first           Object reference to check.
@@ -271,7 +295,16 @@ class UnitTestCase extends SimpleTestCase {
     }
 
     /**
-     *    @deprecated
+     *    Will trigger a pass if both parameters refer
+     *    to different variables. Fail otherwise. The objects
+     *    have to be identical references though.
+     *    This will fail under E_STRICT with objects. Use
+     *    assertClone() for this.
+     *    @param mixed $first           Object reference to check.
+     *    @param mixed $second          Hopefully not the same object.
+     *    @param string $message        Message to display.
+     *    @return boolean               True on pass
+     *    @access public
      */
     function assertCopy(&$first, &$second, $message = "%s") {
         $dumper = &new SimpleDumper();
