@@ -26,6 +26,14 @@ class TestOfSynchronisationCheck extends UnitTestCase {
 }
 
 class TestOfContentTransformationFromXMLToHTML extends UnitTestCase {
+	function testOfContentWithScriptAndUlTags() {
+		$file = dirname(__FILE__).'/package/script_and_ul.xml';
+		$source = simplexml_load_file($file, "SimpleTestXMLElement");
+		$content = $source->content();
+		$this->assertPattern('/<script/', $content);
+		$this->assertPattern('/<ul/', $content);
+	}
+	
 	function testOfNonLinksFileWithPHPExtension() {
 		$file = dirname(__FILE__).'/package/one_section_with_autorum_php.xml';
 		$source = simplexml_load_file($file, "SimpleTestXMLElement");

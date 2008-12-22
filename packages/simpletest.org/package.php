@@ -89,11 +89,22 @@ class SimpleTestXMLElement extends SimpleXMLElement {
                 $anchors[(string)$section->attributes()->name] = true;
             }
             $content .= "<h2>".(string)$section->attributes()->title."</h2>";
-            foreach ($section->p as $paragraph) {
-                $content .= $this->deal_with_php_code($paragraph->asXML());
+
+            switch (true) {
+            	case isset($section->milestone):
+            		$content .= $this->deal_with_milestones($section);
+            		break;
+            	case isset($section->changelog):
+		            $content .= $this->deal_with_changelogs($section);
+		            break;
+				case isset($section->p):
+			        foreach ($section->p as $paragraph) {
+		                $content .= $this->deal_with_php_code($paragraph->asXML());
+		            }
+		            break;
+            	default:
+            		$content .= $section->asXML();
             }
-            $content .= $this->deal_with_milestones($section);
-            $content .= $this->deal_with_changelogs($section);
         }
 
         return $content;
