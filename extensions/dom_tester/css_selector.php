@@ -216,7 +216,7 @@ class CssSelector {
           break;
         case '+':
 			$element = $node->nextSibling;
-			if ($element->nodeName == "#text") {
+			if (isset($element->nodeName) and $element->nodeName == "#text") {
 				$element = $element->nextSibling;
 			}
 			if ($element && $tagName == $element->nodeName) {
